@@ -31,6 +31,13 @@ class ProducList extends React.Component {
 }
 
 class Product extends React.Component {
+  constructor(props) {
+    super(props); // always called first
+
+    // custom method binding here
+    this.handleUpVote = this.handleUpVote.bind(this);
+  }
+
   handleUpVote() {
     this.props.onVote(this.props.id);
   }
