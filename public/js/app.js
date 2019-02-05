@@ -5,6 +5,8 @@ class ProducList extends React.Component {
     this.state = {
       products: [],
     };
+
+    this.handleProductUpVote = this.handleProductUpVote.bind(this);
   }
 
   componentDidMount() {
@@ -14,7 +16,22 @@ class ProducList extends React.Component {
   }
 
   handleProductUpVote(productID) {
-    console.log(`${productID} was upvoted.`);
+    const nextProducts = this.state.products.map((product) => {
+      // check if the current product matches productID
+      if (product.id === productID) {
+        // if it does, create a new object, copying over the props from the original product object
+        return Object.assign({}, product, {
+          votes: product.votes + 1,
+        });
+      } else {
+        // if not, return product unmodified
+        return product;
+      }
+    });
+    
+    this.setState({
+      products: nextProducts,
+    });
   }
 
   render() {
