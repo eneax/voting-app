@@ -1,21 +1,16 @@
-class ProducList extends React.Component {
-  constructor(props) {
-    super(props);
+class ProductList extends React.Component {
 
-    this.state = {
-      products: [],
-    };
-
-    this.handleProductUpVote = this.handleProductUpVote.bind(this);
-  }
-
+  state = {
+    products: [],
+  };
+  
   componentDidMount() {
     this.setState({
       products: Seed.products
     });
   }
 
-  handleProductUpVote(productID) {
+  handleProductUpVote = (productID) => {
     const nextProducts = this.state.products.map((product) => {
       // check if the current product matches productID
       if (product.id === productID) {
@@ -62,16 +57,10 @@ class ProducList extends React.Component {
 }
 
 class Product extends React.Component {
-  constructor(props) {
-    super(props); // always called first
 
-    // custom method binding here
-    this.handleUpVote = this.handleUpVote.bind(this);
-  }
-
-  handleUpVote() {
-    this.props.onVote(this.props.id);
-  }
+  handleUpVote = () => (
+    this.props.onVote(this.props.id)
+  );
 
   render() {
     return (
@@ -108,6 +97,6 @@ class Product extends React.Component {
 }
 
 ReactDOM.render(
-  <ProducList />,
+  <ProductList />,
   document.getElementById('content')
 );
