@@ -1,102 +1,30 @@
 class ProductList extends React.Component {
-
-  state = {
-    products: [],
-  };
-  
-  componentDidMount() {
-    this.setState({
-      products: Seed.products
-    });
-  }
-
-  handleProductUpVote = (productID) => {
-    const nextProducts = this.state.products.map((product) => {
-      // check if the current product matches productID
-      if (product.id === productID) {
-        // if it does, create a new object, copying over the props from the original product object
-        return Object.assign({}, product, {
-          votes: product.votes + 1,
-        });
-      } else {
-        // if not, return product unmodified
-        return product;
-      }
-    });
-    
-    this.setState({
-      products: nextProducts,
-    });
-  }
-
   render() {
-    const products = this.state.products.sort((a, b) => (
-      b.votes - a.votes
-    ));
-
-    const productComponents = products.map((product) => (
-      <Product
-        key={`product-${product.id}`}
-        id={product.id}
-        title={product.title}
-        description={product.description}
-        url={product.url}
-        votes={product.votes}
-        submitterAvatarUrl={product.submitterAvatarUrl}
-        productImageUrl={product.productImageUrl}
-        onVote={this.handleProductUpVote}
-      />
-    ));
-
     return (
       <div className="ui unstackable items">
-        {productComponents}
+        Hello, friend! I am a basic React component.
       </div>
-    );
+    )
   }
 }
 
-class Product extends React.Component {
 
-  handleUpVote = () => (
-    this.props.onVote(this.props.id)
-  );
 
-  render() {
-    return (
-      <div className='item'>
-        <div className='image'>
-          <img src={this.props.productImageUrl} />
-        </div>
-        <div className='middle aligned content'>
-          <div className="header">
-            <a onClick={this.handleUpVote}>
-              <i className="large caret up icon" />
-            </a>
-            {this.props.votes}
-          </div>
-          <div className='description'>
-            <a href={this.props.url}>
-              {this.props.title}
-            </a>
-            <p>
-              {this.props.description}
-            </p>
-          </div>
-          <div className='extra'>
-            <span>Submitted by:</span>
-            <img
-              className='ui avatar image'
-              src={this.props.submitterAvatarUrl}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
 
-ReactDOM.render(
-  <ProductList />,
-  document.getElementById('content')
-);
+
+
+
+/* 
+* NOTES
+- Building a React app is all about components.
+- We can break apart the interface of our app into two classes of components: ProductList (parent) and many Products (children)
+- With a given set of inputs, the output (how the component looks on the page) will always be the same.
+- React components are ES6 classes that extend the class React.Component
+- render() is the only required method for a React component
+- We are going to use JSX, which enables us to write the markup of our component views in HTML-like syntax.
+- This JSX code will compile to vanilla JavaScript.
+- React components ultimately render HTML which is displayed in the browser.
+- the render() method of a component needs to describe how the view should be represented as HTML. 
+- React builds our apps with a fake representation of the Document Object Model (DOM). React calls this the virtual DOM
+- Basically, React allows us to describe a component’s HTML representation in JavaScript.
+*/
