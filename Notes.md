@@ -19,6 +19,19 @@ Ultimately, React components render HTML which is displayed in the browser.
 React builds our apps with a fake representation of the Document Object Model (DOM), called the "virtual DOM".
 Basically, React allows us to describe a component’s HTML representation in JavaScript.
 
+In JSX, braces are a delimiter, signaling to JSX that what resides in-between the braces is a JavaScript expression.
+JSX attribute values must be delimited by either braces or quotes (in case of strings).
+
+```
+id={product.id}
+```
+
+or
+
+```
+id='1'
+```
+
 
 ## Babel
 
@@ -40,3 +53,42 @@ ReactDOM.render(
 ```
 
 ReactDOM comes from react-dom library. We pass in it two arguments. The first argument is **what** we’d like to render and the second argument is **where** to render it: ReactDOM.render([what], [where]);
+
+
+## Make a component data-driven
+
+It allows us to dynamically render a component based upon the data that we give it.
+In React, data flows from the parent component to the child through props.
+
+
+```
+class ProductList extends React.Component {
+  render() {
+    const product = Data.products[0];
+    return (
+      <div className='...'>
+        <Product
+          id={product.id}
+          title={product.title}
+          description={product.description}
+        />
+      </div>
+    );
+  } 
+}
+```
+
+ProductList component (parent) is passing data down to the Product component (child), which can access all its props through the object `this.props`.
+
+```
+class Product extends React.Component {
+  render() {
+    return (
+      <div>
+        <a>{this.props.title}</a>
+        <p>{this.props.description}</p>
+      </div>
+    )
+  }
+}
+```
