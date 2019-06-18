@@ -92,3 +92,44 @@ class Product extends React.Component {
   }
 }
 ```
+
+
+## Rendering multiple products
+
+To render multiple products, we need the ProductList component (parent) to generate an array of Product components (children).
+
+```
+class ProductList extends React.Component {
+  render() {
+    const productComponents = Seed.products.map((product) => (
+      <Product 
+        key={'product- ' + product.id}
+        id={product.id}
+        title={product.title}
+      />
+    ))
+
+    return (
+      <div>
+        {productComponents}
+      </div>
+    )
+  }
+}
+```
+
+Each time we render multiple products, we need to use the `key` prop.
+The React framework uses this special property to create unique bindings for each instance of the Product component.
+
+
+We `map` over Seed.products (array of objects) in order to create an array of Product components.
+The final result is a single parent component, ProductList that contains four child Product components,one for each product object in the Seed.products array in seed.js file:
+
+```
+[
+  <Product id={1} ... />,
+  <Product id={2} ... />,
+  <Product id={3} ... />,
+  <Product id={4} ... />
+]
+```
