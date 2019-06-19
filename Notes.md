@@ -296,3 +296,52 @@ class ProductList extends React.Component {
   }
 }
 ```
+
+
+## Updating state and immutability
+
+After setting the initial state, we have to be able to modify it in response to user input. In particular, we want to increment the votes property on a product when the user votes for it.
+We could modify the state in many ways, for instance using **push()** and **concat()**. However, it's best practice to treat state as **immutable**.
+
+A better way to modify state is to create a new array (of products in our case). So every time we have to modify the state (one of the product objects inside the products array) we will modify the clone of the object, instead of the original one.
+
+```
+class ProductList extends React.Component {
+  ...
+
+  handleProductUpVote(productId) {
+    const newProducts = this.state.products.map((product) => {
+      if (product.id === productId) {
+        return Object.assign({}, product, {
+          votes: product.votes + 1,
+        });
+      } else {
+        return product;
+      }
+    });
+
+    this.setState({
+      products: newProducts
+    });
+  }
+}
+```
+
+We used **map()** to loop over the products array, since map() returns a new array.
+**Object.assign()** is used to avoid mutating the original objects. That's why we create a new object copying over the properties from the original one and set it to increment vote count. Finally, we update the state with **this.setState()**.
+
+One more thing to remember is that **handleProductUpVote()** is a custom component method. We need to *bind()* **this** in **handleProductUpVote()** in order to reference our component.
+
+```
+class ProductList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      products: [],
+    }
+
+    this.handleProductUpVote = this.handleProductUpVote.bind(this);
+  }
+}
+```
