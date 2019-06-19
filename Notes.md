@@ -275,3 +275,24 @@ render() {
   });
 }
 ```
+
+
+## Setting state with this.setState()
+
+It’s considered best practice to initialize components with “empty” state and after the component is initialized, we need to seed the state with data.
+
+In React, we have a collection of **lifecycle methods** and one of them, that we use on a daily basis, is **componentDidMount()**.
+The component mounts on the page with an empty state (i.e. empty products array) and we populate the state with data thanks to **componentDidMount()** and **this.setState()** (asynchronous). Basically **this.setState()** is the only way to modify state.
+After the state changes, the React component will re-render and the products will appear on the page.
+
+```
+class ProductList extends React.Component {
+  ...
+
+  componentDidMount() {
+    this.setState({
+      products: Seed.products
+    });
+  }
+}
+```
