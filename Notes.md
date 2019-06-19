@@ -204,3 +204,35 @@ class Product extends React.Component {
 
 In other words, when the user clicks the button, React invokes Product component’s *handleUpVote*; which will invoke its prop *onVote*. 
 Finally, *onVote* is a function that lives inside the parent component and will log a message to the console.
+
+
+## Binding custom component methods
+
+In JavaScript, the **this** variable has a different binding depending on the context.
+In React, we have to distinguish two separate cases: 
+- when *this* is inside the *render()* method
+- when *this* is inside a custom component method like *handleUpVote()*
+
+In the first case, inside *render()*, **this** is always bound to the component; it references the component. 
+React binds **this** to the component for us, since it specifies a default set of special API methods. 
+
+However, inside handleUpVote(), **this** is *null* and we have to manually bind **this** to the component ourselves.
+
+In our case, we want *this* inside handleUpVote() to reference the component, in the same way it does inside render() and in other special React methods like *componentDidMount()*. That's why we need **constructor()**:
+
+```
+class MyReactComponent extends React.Component { 
+  constructor(props) {
+    super(props); // always call this first
+    
+    // custom method bindings here
+    this.someFunction = this.someFunction.bind(this); 
+  }
+}
+```
+
+**constructor()** is a special function in a JavaScript class that is invoked whenever an object is created via a class.
+React invokes **constructor()** with a component’s props when initializing that particular component.
+
+The first thing that a constructor does is calling **super(props)**. 
+super() allows us to invoke that constructor() function first and then, call bind() on our custom component method.
