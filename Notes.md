@@ -236,3 +236,42 @@ React invokes **constructor()** with a component’s props when initializing tha
 
 The first thing that a constructor does is calling **super(props)**. 
 super() allows us to invoke that constructor() function first and then, call bind() on our custom component method.
+
+
+## Using state
+
+In our voting-app, we used seed.products as a way to inject some sample data, but it is not intended as a database.
+What we want is a place to store and manage data, and that's what **state** is.
+
+While props are immutable and owned by the parent component, *state* is an object (in React components) that is owned by the child component itself and can be updated using **this.setState()**.
+
+Every time the state or props of a component update, it triggers a re-rendering of the component itself. This rendering is **deterministic**.
+It means that, given a set of props and state (inputs), a React component will always generate the same output.
+
+Before adding state to a component, we need to define how the initial state should look like and since we want to modify the data for our list of products (number of votes), ProductList will be the owner of this state. The parent component, then, will pass this state down as props to the children.
+
+Considering that *constructor()* is called when initializing a component, it’s the best place to define our initial state which will look like this: 
+
+```
+class ProductList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      products: [],
+    };
+  }
+
+  ...
+}
+```
+
+Once the state has been initialized, we can read it using **this.state**:
+
+```
+render() {
+  const products = this.state.products.sort((a, b) => {
+    b.votes - a.votes
+  });
+}
+```
