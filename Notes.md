@@ -133,3 +133,74 @@ The final result is a single parent component, ProductList that contains four ch
   <Product id={4} ... />
 ]
 ```
+
+
+## Interaction and Event Propagation
+
+React was built with the idea of **one-way data flow**, which means that data changes come from the **top** of the app and are propagated **downwards** through its various components.
+
+Basically, a parent component owns the props, while a child component can read the props without modifying them (**this.props is immutable**).
+
+Thus, we need the child component to let the parent know when an event occurs. 
+The way in which children communicate events with parents is through **functions** that are passed as props. The parent component gives each child a function to call when an event occurs, for instance a button is clicked.
+
+Then, the parent component (owner of the data) will update the vote count for that product and finally, the updated data will flow downward from the parent to the children.
+
+To have a better idea of the whole process, let's see an example.
+First of all, we need to create a function *handleProductUpVote* in ProductList that will accept a single argument, *productId*.
+
+```
+class ProductList extends React.Component {
+  handleProductUpVote(productId) {
+    console.log(productId + ' was upvoted.');
+  }
+
+  render() {
+  }
+}
+```
+
+Next, we have to pass the function down as a prop to the child component.
+Inside the parent component:
+
+```
+const productComponents = products.map((product) => (
+  <Product
+    key={product.id}
+    id={product.id}
+    title={product.title}
+    onVote={this.handleProductUpVote}
+  />
+))
+```
+
+Now, we can access this function inside Product (child component) while invoking the prop-function *this.props.onVote* with the id of the product.
+
+```
+class Product extends React.Component {
+  handleUpVote() {
+    this.props.onVote(this.props.id)
+  }
+
+  render() {
+  }
+}
+```
+
+Then, we just need to call this function every time the user clicks the button.
+To handle mouse click events, we use the React special attribute **onClick**.
+
+```
+class Product extends React.Component {
+  render() {
+    <div className='header'>
+      <a onClick={this.handleUpVote}>
+        Click Me!
+      </a>
+    </div>
+  }
+}
+```
+
+In other words, when the user clicks the button, React invokes Product component’s *handleUpVote*; which will invoke its prop *onVote*. 
+Finally, *onVote* is a function that lives inside the parent component and will log a message to the console.
