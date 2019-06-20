@@ -345,3 +345,25 @@ class ProductList extends React.Component {
   }
 }
 ```
+
+
+## Property initializers
+
+As we discussed earlier, every time we create a custom component method, we need to bind **this** to the component.
+That's why we had to perform a manual binding using **constructor()** and **super()**.
+
+Thanks to Babel, developers can use the latest versions of JavaScript without leaving older browsers behind.
+Available in the Babel plugin transform-class-properties, we can find *property initializers*; which allow us to write a custom component method (i.e. *handleUpVote*) as an arrow function.
+
+In this way, **this** inside the function is bound to the component and we don't need *constructor* and manual binding anymore.
+
+```
+class Product extends React.Component {
+  handleUpVote = () => (
+    this.props.onVote(this.props.id)
+  );
+
+  render() {
+  }
+}
+```
