@@ -367,3 +367,15 @@ class Product extends React.Component {
   }
 }
 ```
+
+Another interesting feature of *property initializers* is that it allows us to define the initial state of a component outside the **constructor()**. 
+
+```
+class ProductList extends React.Component {
+  state = {
+    products: [],
+  };
+
+  ...
+}
+```
